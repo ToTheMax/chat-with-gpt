@@ -1,4 +1,4 @@
-FROM node:19-bullseye-slim AS build
+FROM node:21-bullseye-slim AS build
 
 RUN apt-get update && \
     apt-get install -y \
@@ -12,6 +12,8 @@ COPY ./app/package.json ./
 COPY ./app/tsconfig.json ./
 
 # Install Node.js dependencies
+RUn npm install -g npm@latest
+
 RUN npm install
 
 COPY ./app/vite.config.js ./
@@ -27,7 +29,7 @@ ENV NODE_ENV=production
 # Build the application
 RUN npm run build
 
-FROM node:19-bullseye-slim AS server
+FROM node:21-bullseye-slim AS server
 
 # Set the working directory
 WORKDIR /app
